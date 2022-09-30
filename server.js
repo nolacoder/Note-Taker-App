@@ -1,7 +1,9 @@
+// This file is kept lean through the use of modular routing. Please use routes/index.js to add additional api routes.
 const express = require('express');
 const path = require('path');
 const api = require('./routes/index')
 
+// Handles the PORT for the Heroku deploy or a local deploy
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -9,6 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Begins the route to any api endpoints
 app.use('/api', api)
 app.use(express.static('public'));
 
