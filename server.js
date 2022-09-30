@@ -1,10 +1,8 @@
-const fs = require('fs');
 const express = require('express');
 const path = require('path');
 const { readFromFile, readAndAppend } = require('./helpers/fsUtils')
 const ShortUniqueId = require('short-unique-id');
 const uid = new ShortUniqueId()
-const { V4MAPPED } = require('dns');
 
 const PORT = process.env.PORT || 3001;
 
@@ -19,7 +17,6 @@ app.get('/notes', (req, res) =>
     res.sendFile(path.join(__dirname, "public/notes.html"))
 )
 
-// handle GET *
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, "public/index.html"))
 )
 
