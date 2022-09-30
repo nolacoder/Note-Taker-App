@@ -1,7 +1,10 @@
 const fs = require('fs');
 const express = require('express');
 const path = require('path');
-const {readFromFile, writeToFile, readAndAppend } = require('./helpers/fsUtils')
+const {readFromFile, readAndAppend } = require('./helpers/fsUtils')
+const ShortUniqueId = require('short-unique-id');
+const uid = new ShortUniqueId()
+const { V4MAPPED } = require('dns');
 
 const PORT = process.env.port || 3001;
 
@@ -19,7 +22,30 @@ app.get('/notes', (req, res) =>
 // handle GET *
 
 app.get('/api/notes', (req, res) => {
-    res.send()
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
+})
+
+app.post('/api/notes', (req, res) => {
+    const { title, text } = req.body;
+
+    const newNote = {
+        title,
+        text,
+        id: uid(),
+    }
+
+    readAndAppend(newNote, './db/db.json')
+
+    const response = {
+        status: 'success',
+        body: newNote,
+      };
+  
+    res.json(response);
+})
+
+app.delete('/api/notes/:id', (req, res) => {
+
 })
 
 app.listen(PORT, () =>
