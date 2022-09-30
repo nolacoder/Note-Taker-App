@@ -1,7 +1,7 @@
 const fs = require('fs');
 const express = require('express');
 const path = require('path');
-const {readFromFile, readAndAppend } = require('./helpers/fsUtils')
+const { readFromFile, readAndAppend } = require('./helpers/fsUtils')
 const ShortUniqueId = require('short-unique-id');
 const uid = new ShortUniqueId()
 const { V4MAPPED } = require('dns');
@@ -15,12 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
-app.get('/notes', (req, res) => 
+app.get('/notes', (req, res) =>
     res.sendFile(path.join(__dirname, "public/notes.html"))
 )
 
 // handle GET *
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, "public/index.html"))
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, "public/index.html"))
 )
 
 app.get('/api/notes', (req, res) => {
@@ -41,8 +41,8 @@ app.post('/api/notes', (req, res) => {
     const response = {
         status: 'success',
         body: newNote,
-      };
-  
+    };
+
     res.json(response);
 })
 
@@ -51,5 +51,5 @@ app.delete('/api/notes/:id', (req, res) => {
 })
 
 app.listen(PORT, () =>
-  console.log(`App listening at http://localhost:${PORT} 🚀`)
+    console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
